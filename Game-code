@@ -1,0 +1,107 @@
+//Create variables.
+let score = 0;
+let row_one = 1;
+let row_two = 2;
+let row_three = 3;
+let fake_num = 0;
+let spin_waittime = 0;
+let game_state = "Wait";
+basic.forever(function() {
+ if (game_state == "Wait") {
+     //While the game state is wait, simply show a S.
+     basic.showLeds(`
+      . . # # .
+      . # . . .
+      . . # . .
+      . . . # .
+      . # # . .`)
+      
+ }
+
+ if (game_state == "Rolling") {
+     //While the gamestate is rolling, the fake num will increase by one until its three which then
+     //it will wrap around to 1, the spin wait-time is decreased by one, and the fake num is shown.
+     //If the spin_waittime is under or equal to zero, set the game state to Results. And randomize the fake Number.
+     if (fake_num < 3) {fake_num++} else {fake_num = 1};
+     spin_waittime --;
+     basic.showNumber(fake_num);
+     if (spin_waittime <= 0) { 
+         game_state = "Results"; 
+         fake_num = randint(1, 3);
+     }
+ }
+
+ if (game_state == "Results") {
+     //While game state is results, Show the fake number on screen for 42 mila seconds, then clear the screen, repeat again.
+     //Then clear the screen and show numbers, pausing for 55 mila second for each one. 
+     //Then clear the screen again and show the total score and pause for 100 mila seconds.
+     //Finally clear the screen one more time and if the score is equal to 9, you won da juck port.
+     //Other wise just tell the player to press A to play again. Then send the player back to the start to repeat it all over again.
+     basic.showNumber(fake_num);
+     basic.pause(42);
+     basic.showLeds(`
+     . . . . . 
+     . . . . .
+     . . . . .
+     . . . . .
+     . . . . .`);
+     basic.pause(42);
+
+     basic.showNumber(fake_num);
+     basic.pause(42);
+     basic.showLeds(`
+     . . . . . 
+     . . . . .
+     . . . . .
+     . . . . .
+     . . . . .`);
+     basic.pause(42);
+     basic.showNumber(fake_num);
+    
+     basic.clearScreen();
+     basic.showString("Your numbers are:");
+     basic.showNumber(row_one);
+     basic.pause(55);
+
+     basic.showNumber(row_two);
+     basic.pause(55);
+
+     basic.showNumber(row_three);
+     basic.pause(55);
+
+     basic.clearScreen();
+     basic.showString("Your total score is:")
+     basic.showNumber(score);
+     basic.pause(100);
+
+     basic.clearScreen();
+     if (score == 9) {
+         basic.showString("You won da juck port!!!");
+     }else{
+         basic.showString("Press A to play again!");
+     }
+
+     game_state = "Wait"
+
+     
+ }
+  
+})
+
+input.onButtonPressed(Button.A, function() {
+  //When the A button is pressed check game state. If its Wait, set the game state to Rolling, reset the score
+  //and set the spin wait time to a random number between 2 and ten and the rows to a random number between 1 and 3
+  //And set the score to all the rows combined.
+  //Else do nothing.
+  if (game_state == "Wait") {
+     score = 0;
+     spin_waittime = randint(2,10);
+     row_one = randint(1,3);
+     row_two = randint(1,3);
+     row_three = randint(1,3);
+     score = row_one + row_two + row_three;
+     game_state = "Rolling";
+  }
+})
+
+//By crabbugger
