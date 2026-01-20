@@ -6,6 +6,7 @@ let row_three = 3;
 let fake_num = 0;
 let spin_waittime = 0;
 let game_state = "Wait";
+let win_count = 0;
 basic.forever(function() {
  if (game_state == "Wait") {
      //While the game state is wait, simply show a S.
@@ -35,8 +36,9 @@ basic.forever(function() {
      //While game state is results, Show the fake number on screen for 42 mila seconds, then clear the screen, repeat again.
      //Then clear the screen and show numbers, pausing for 55 mila second for each one. 
      //Then clear the screen again and show the total score and pause for 100 mila seconds.
-     //Finally clear the screen one more time and if the score is equal to 9, you won da juck port.
-     //Other wise just tell the player to press A to play again. Then send the player back to the start to repeat it all over again.
+     //Finally clear the screen one more time and if the score is equal to 9, you won da juck port and increment win counter, if 
+     //The win counter is above or equal to three, you are banned, sorry but the house always wins.
+     //Other wise just tell the player to press A to play again and reset the win count. Then send the player back to the start (if the game state isn't equal to banned) to repeat it all over again.
      basic.showNumber(fake_num);
      basic.pause(42);
      basic.showLeds(`
@@ -77,15 +79,22 @@ basic.forever(function() {
      basic.clearScreen();
      if (score == 9) {
          basic.showString("You won da juck port!!!");
+         win_count ++;
+         if (win_count >= 3) {
+             game_state = "banned";
+         }
      }else{
          basic.showString("Press A to play again!");
+         win_count = 0;
      }
 
-     game_state = "Wait"
+     if (game_state != "banned") {game_state = "Wait"};
 
      
  }
-  
+ if (game_state == "banned") {
+     basic.showString("Sorry man, you won to much and now your banned, like, FOREVER. Dems da rules kid, da house always wins.");
+ }
 })
 
 input.onButtonPressed(Button.A, function() {
