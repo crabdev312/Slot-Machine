@@ -99,7 +99,7 @@ basic.forever(function() {
 
 input.onButtonPressed(Button.A, function() {
   //When the A button is pressed check game state. If its Wait, set the game state to Rolling, reset the score
-  //and set the spin wait time to a random number between 2 and ten and the rows to a random number between 1 and 3
+  //and set the spin wait time to a random number between 2 and 10 and the rows to a random number between 1 and 3
   //And set the score to all the rows combined.
   //Else do nothing.
   if (game_state == "Wait") {
