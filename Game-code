@@ -1,3 +1,6 @@
+//All code seen here is by me (The me is Crabbugger)
+
+
 //Create variables.
 let score = 0;
 let row_one = 1;
@@ -101,7 +104,7 @@ input.onButtonPressed(Button.A, function() {
   //When the A button is pressed check game state. If its Wait, set the game state to Rolling, set the score to 0
   //and set the spin wait time to a random number between 2 and 10 and the rows to a random number between 1 and 3.
   //And set the score to all the rows combined.
-  //Otherwise if the game state is not wait do nothing.
+  //Otherwise if the game state is not wait, do nothing.
   if (game_state == "Wait") {
      score = 0;
      spin_waittime = randint(2,10);
@@ -112,5 +115,3 @@ input.onButtonPressed(Button.A, function() {
      game_state = "Rolling";
   }
 })
-
-//By crabbugger
